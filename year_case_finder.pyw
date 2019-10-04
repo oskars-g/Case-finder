@@ -2,10 +2,13 @@ import os, datetime
 
 
 def year_case_finder(year, month, day):
+    year = int(year) # python 2.7 nav nepieciešams
+    month = int(month)
+    day = int(day)
     laiks = datetime.datetime(year, month, day).strftime('%Y%m%d')
     case = []
     for filename in os.listdir('.'):
-       if filename.endswith(".sav"):
+        if filename.endswith(".sav"):
             db = []
             db.append(filename)
             for i in db:
@@ -20,10 +23,13 @@ def year_case_finder(year, month, day):
 
 
 def closest_case_finder(year, month, day):
+    year = int(year)
+    month = int(month)
+    day = int(day)
     laiks = datetime.datetime(year, month, day).strftime('%Y%m')
     case = []
     for filename in os.listdir('.'):
-       if filename.endswith(".sav"):
+        if filename.endswith(".sav"):
             db = []
             db.append(filename)
             for i in db:
@@ -38,6 +44,9 @@ def closest_case_finder(year, month, day):
 
 
 def day_of_week(year, month, day):
+    year = int(year)
+    month = int(month)
+    day = int(day)
     diena = int(datetime.datetime(year, month, day).strftime('%w'))
     if diena == 0 or diena == 6:
         return 0
@@ -45,31 +54,25 @@ def day_of_week(year, month, day):
         return 1
 
 
- 
-
-
-def get_case_for_bd(c_case):
-    bd_case =[]
-    for f in range(len(c_case)):
-        case = c_case[f]
-        s = int((datetime.datetime.strptime(c_case[f][:8], "%Y%m%d")).strftime('%w'))
-        if s == 0 or s == 6:
-            bd_case.append(case)
-        else:
-            continue
-    return bd_case
-
-
-def get_case_for_dd(c_case):
-    dd_case = []
-    for f in range(len(c_case)):
-        case = c_case[f]
-        s = int((datetime.datetime.strptime(c_case[f][:8], "%Y%m%d")).strftime('%w'))
-        if 1 <= s <= 5:
-            dd_case.append(case)
-        else:
-            continue
-    return dd_case
+def get_case(c_case, i):
+    get_case = []
+    if i == 0:
+        for f in range(len(c_case)):
+            case = c_case[f]
+            s = int((datetime.datetime.strptime(c_case[f][:8], "%Y%m%d")).strftime('%w'))
+            if s == 0 or s == 6:
+                get_case.append(case)
+            else:
+                continue
+    else:
+        for f in range(len(c_case)):
+            case = c_case[f]
+            s = int((datetime.datetime.strptime(c_case[f][:8], "%Y%m%d")).strftime('%w'))
+            if 1 <= s <= 5:
+                get_case.append(case)
+            else:
+                continue
+    return get_case
 
 
 year = input("Year: ")
@@ -88,21 +91,3 @@ if case == False:
 else:
     print('Exact case found, job done!')
     print(case)
-
-
-# if case == False:
-#     c_case = closest_case_finder(year, month, day)
-#     if c_case == False:
-#         print('No case exist!')
-#     else:
-#         if day_of_week(year, month, day) == 0:  # brivdiena
-#             case = get_case_for_bd(c_case)
-#             print('Closest weekend day found, job done!')
-#             print(case)
-#         else:  # darba diena
-#             case = get_case_for_dd(c_case)
-#             print('Closest work day found, job done!')
-#             print(case)
-# else:
-#     print('Exact case found, job done!')
-#     print(case)
